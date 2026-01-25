@@ -37,7 +37,7 @@ class KibTanahController extends Controller
 
     public function store(KibTanahRequest $request)
     {
-        $data = $this->TanahService->create($request->validated(), $request);
+        $data = $this->TanahService->create($request->validated());
         return $this->successResponse($data, 'Data Tanah berhasil Ditambahkan', 200);
     }
 
@@ -55,7 +55,7 @@ class KibTanahController extends Controller
 
     public function update(KibTanahRequest $request, $id)
     {
-        $data = $this->TanahService->update($id, $request->validated(), $request);
+        $data = $this->TanahService->update($id, $request->validated());
         return $this->successResponse($data, 'Data Tanah berhasil Diupdate', 200);
     }
 

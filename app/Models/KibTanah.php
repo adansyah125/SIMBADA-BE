@@ -32,7 +32,6 @@ class KibTanah extends Model
         'cara_perolehan',
         'status_penggunaan',
         'keterangan',
-        'gambar'
     ];
 
     public function kir()

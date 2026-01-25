@@ -20,6 +20,7 @@ class KirRequest extends FormRequest
             'kondisi' => 'required|in:baik,kurang baik,rusak berat',
             'jumlah' => 'required|integer',
             'nilai_perolehan' => 'required|numeric',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:5120',
         ];
     }
 }

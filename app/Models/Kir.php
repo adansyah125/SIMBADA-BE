@@ -22,6 +22,7 @@ class Kir extends Model
         'jumlah',
         'nilai_perolehan',
         'gambar_qr',
+        'gambar',
     ];
 
     public function tanah()

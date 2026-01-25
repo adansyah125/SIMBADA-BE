@@ -27,10 +27,8 @@ class KirController extends Controller
 
     public function store(KirRequest $request)
     {
-        $data = $request->validated();
-        $kir = $this->kirService->store($data);
-
-        return $this->successResponse($kir, 'KIR berhasil dibuat', 201);
+        $kir = $this->kirService->store($request->validated(), $request);
+        return $this->successResponse($kir, 'KIR berhasil dibuat', 200);
     }
 
     public function show(Kir $kir)
@@ -40,17 +38,14 @@ class KirController extends Controller
 
     public function update(KirRequest $request, Kir $kir)
     {
-        $data = $request->validated();
 
-        $kir = $this->kirService->update($kir, $data);
-
+        $kir = $this->kirService->update($kir, $request->validated(), $request);
         return $this->successResponse($kir, 'KIR berhasil diperbarui');
     }
 
     public function destroy(Kir $kir)
     {
         $this->kirService->delete($kir);
-
         return $this->successResponse(null, 'KIR berhasil dihapus');
     }
 

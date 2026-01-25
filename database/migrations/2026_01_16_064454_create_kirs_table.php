@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('jumlah');
             $table->decimal('nilai_perolehan', 18, 2);
             $table->string('gambar_qr')->nullable();
+            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

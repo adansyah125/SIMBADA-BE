@@ -34,7 +34,6 @@ return new class extends Migration
             $table->string('cara_perolehan')->nullable();
             $table->string('status_penggunaan')->nullable();
             $table->text('keterangan')->nullable();
-            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

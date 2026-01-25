@@ -13,10 +13,19 @@ class KirService
         return Kir::latest()->get();
     }
 
-    public function store(array $data): Kir
+    public function store(array $data, $request = null): Kir
     {
-        $kir = Kir::create($data);
 
+        if ($request && $request->hasFile('gambar')) {
+            $path = $request->file('gambar')->store('kir', 'public');
+            $data['gambar'] = $path;
+        }
+
+        if (empty($data['kode_barang'])) {
+            throw new \Exception("Kolom kode_barang tidak boleh kosong.");
+        }
+
+        $kir = Kir::create($data);
         // Generate QR
         $qrData = url('/kir/' . $kir->id);
         $qrName = 'qr_' . time() . '_' . $kir->id . '.svg';
@@ -32,7 +41,7 @@ class KirService
 
         return $kir;
     }
-    public function update(Kir $kir, array $data): Kir
+    public function update(Kir $kir, array $data, $request = null): Kir
     {
         // ❗ Jangan sentuh gambar_qr
         unset($data['gambar_qr']);
@@ -41,6 +50,16 @@ class KirService
         $data['tanah_id']  = $data['tanah_id']  ?? null;
         $data['gedung_id'] = $data['gedung_id'] ?? null;
         $data['mesin_id']  = $data['mesin_id']  ?? null;
+
+        if ($request && $request->hasFile('gambar')) {
+            // 1. Hapus gambar lama jika ada di storage
+            if ($kir->gambar) {
+                Storage::disk('public')->delete($kir->gambar);
+            }
+
+            // 2. Simpan gambar baru
+            $data['gambar'] = $request->file('gambar')->store('kir', 'public');
+        }
 
         $kir->update($data);
 

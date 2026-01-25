@@ -8,4 +8,3 @@
 ## artisan
 `make:import name`
 `install:api`
-c

@@ -38,7 +38,6 @@ class MesinService
     public function update($id, array $data, $request = null)
     {
         $KibMesin = $this->getById($id);
-        $KibMesin = $this->getById($id);
         // Cek jika ada unggahan gambar baru
         if ($request && $request->hasFile('gambar')) {
             // 1. Hapus gambar lama jika ada di storage
