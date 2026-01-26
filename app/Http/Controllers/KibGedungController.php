@@ -23,10 +23,11 @@ class KibGedungController extends Controller
     {
         $this->GedungService = $service;
     }
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = $this->GedungService->getAll();
+            $search = $request->query('search');
+            $data = $this->GedungService->getAll($search);
             return $this->successResponse($data, 'Data Tanah berhasil diambil', 200);
         } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Data tanah tidak ditemukan', 404);
@@ -37,7 +38,7 @@ class KibGedungController extends Controller
 
     public function store(GedungRequest $request)
     {
-        $data = $this->GedungService->create($request->validated(), $request);
+        $data = $this->GedungService->create($request->validated());
         return $this->successResponse($data, 'Data Tanah berhasil Ditambahkan', 200);
     }
 
@@ -55,7 +56,7 @@ class KibGedungController extends Controller
 
     public function update(GedungRequest $request, $id)
     {
-        $data = $this->GedungService->update($id, $request->validated(), $request);
+        $data = $this->GedungService->update($id, $request->validated());
         return $this->successResponse($data, 'Data Tanah berhasil Diupdate', 200);
     }
 

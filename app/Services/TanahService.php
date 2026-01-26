@@ -8,9 +8,18 @@ use Illuminate\Support\Facades\Storage;
 
 class TanahService
 {
-    public function getAll()
+    public function getAll($search = null)
     {
-        return KibTanah::latest()->get();
+        $query = KibTanah::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_barang', 'like', "%{$search}%")
+                    ->orWhere('kode_barang', 'like', "%{$search}%");
+            });
+        }
+
+        return $query->latest()->paginate(10);
     }
 
 

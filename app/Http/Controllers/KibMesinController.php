@@ -23,10 +23,12 @@ class KibMesinController extends Controller
     {
         $this->MesinService = $service;
     }
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = $this->MesinService->getAll();
+            $search = $request->query('search');
+
+            $data = $this->MesinService->getAll($search);
             return $this->successResponse($data, 'Data Tanah berhasil diambil', 200);
         } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Data tanah tidak ditemukan', 404);
@@ -37,7 +39,7 @@ class KibMesinController extends Controller
 
     public function store(KibMesinRequest $request)
     {
-        $data = $this->MesinService->create($request->validated(), $request);
+        $data = $this->MesinService->create($request->validated());
         return $this->successResponse($data, 'Data Tanah berhasil Ditambahkan', 200);
     }
 
@@ -55,7 +57,7 @@ class KibMesinController extends Controller
 
     public function update(KibMesinRequest $request, $id)
     {
-        $data = $this->MesinService->update($id, $request->validated(), $request);
+        $data = $this->MesinService->update($id, $request->validated());
         return $this->successResponse($data, 'Data Tanah berhasil Diupdate', 200);
     }
 
@@ -72,10 +74,18 @@ class KibMesinController extends Controller
             'file' => 'required|mimes:xlsx,xls|max:5120'
         ]);
 
-        Excel::import(new KibMesinImport, $request->file('file'));
+        try {
+            Excel::import(new KibMesinImport, $request->file('file'));
 
-        return response()->json([
-            'message' => 'Data KIB Mesin berhasil diimport'
-        ]);
+            return response()->json([
+                'status' => 'Success',
+                'message' => 'Data KIB Mesin berhasil diimport'
+            ], 200);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'status' => 'Error',
+                'message' => $e->getMessage()   // 🔥 tampilkan error asli
+            ], 500);
+        }
     }
 }

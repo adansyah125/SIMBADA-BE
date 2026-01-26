@@ -28,7 +28,6 @@ class KibMesinRequest extends FormRequest
             'cara_perolehan' => 'nullable|string',
             'status_penggunaan' => 'nullable|string',
             'keterangan' => 'nullable|string',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ];
     }
 }

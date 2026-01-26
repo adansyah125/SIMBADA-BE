@@ -32,7 +32,6 @@ class KibTanahRequest extends FormRequest
             'cara_perolehan' => 'nullable|string',
             'status_penggunaan' => 'nullable|string',
             'keterangan' => 'nullable|string',
-            'gambar' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:5120',
             // Tambahkan validasi lain sesuai kebutuhan
         ];
     }

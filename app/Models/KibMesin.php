@@ -31,7 +31,6 @@ class KibMesin extends Model
         'tanggal_perolehan',
         'status_penggunaan',
         'keterangan',
-        'gambar'
     ];
 
     public function kir()

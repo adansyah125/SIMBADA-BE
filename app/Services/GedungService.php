@@ -7,26 +7,22 @@ use Illuminate\Support\Facades\Storage;
 
 class GedungService
 {
-    public function getAll()
+    public function getAll($search = null)
     {
-        return KibGedung::latest()->get();
+        $query = KibGedung::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_barang', 'like', "%{$search}%")
+                    ->orWhere('kode_barang', 'like', "%{$search}%");
+            });
+        }
+
+        return $query->latest()->paginate(1);
     }
 
-    public function create(array $data, $request = null)
+    public function create(array $data)
     {
-        // Cek apakah ada file 'gambar' di dalam request
-        if ($request && $request->hasFile('gambar')) {
-            // Simpan gambar ke folder 'storage/app/public/kib'
-            $path = $request->file('gambar')->store('kib', 'public');
-
-            // Masukkan path gambar ke dalam array data untuk disimpan ke kolom 'gambar' di DB
-            $data['gambar'] = $path;
-        }
-
-        // Pastikan kode_barang ada agar tidak kena error 1048
-        if (empty($data['kode_barang'])) {
-            throw new \Exception("Kolom kode_barang tidak boleh kosong.");
-        }
         return KibGedung::create($data);
     }
 
@@ -35,19 +31,9 @@ class GedungService
         return KibGedung::findOrFail($id);
     }
 
-    public function update($id, array $data, $request = null)
+    public function update($id, array $data)
     {
         $KibGedung = $this->getById($id);
-        // Cek jika ada unggahan gambar baru
-        if ($request && $request->hasFile('gambar')) {
-            // 1. Hapus gambar lama jika ada di storage
-            if ($KibGedung->gambar) {
-                Storage::disk('public')->delete($KibGedung->gambar);
-            }
-
-            // 2. Simpan gambar baru
-            $data['gambar'] = $request->file('gambar')->store('kib', 'public');
-        }
         $KibGedung->update($data);
         return $KibGedung;
     }
@@ -55,11 +41,6 @@ class GedungService
     public function delete($id)
     {
         $KibGedung = $this->getById($id);
-        // 1. Cek apakah ada path gambar di database
-        if ($KibGedung->gambar) {
-            // 2. Hapus file fisik dari folder storage/app/public/kib
-            Storage::disk('public')->delete($KibGedung->gambar);
-        }
         return $KibGedung->delete();
     }
 }

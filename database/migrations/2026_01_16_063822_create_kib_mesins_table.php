@@ -33,7 +33,6 @@ return new class extends Migration
             $table->date('tanggal_perolehan')->nullable();
             $table->string('status_penggunaan')->nullable();
             $table->text('keterangan')->nullable();
-            $table->string('gambar')->nullable();
             $table->timestamps();
         });
     }

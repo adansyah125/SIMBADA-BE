@@ -23,10 +23,11 @@ class KibTanahController extends Controller
     {
         $this->TanahService = $service;
     }
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = $this->TanahService->getAll();
+            $search = $request->query('search');
+            $data = $this->TanahService->getAll($search);
             return $this->successResponse($data, 'Data Tanah berhasil diambil', 200);
         } catch (ModelNotFoundException $e) {
             return $this->errorResponse('Data tanah tidak ditemukan', 404);
