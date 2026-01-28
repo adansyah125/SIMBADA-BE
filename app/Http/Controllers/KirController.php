@@ -8,6 +8,8 @@ use App\Services\KirService;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade\Pdf;
 use App\Http\Requests\KirRequest;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Throwable;
 
 class KirController extends Controller
 {
@@ -20,9 +22,17 @@ class KirController extends Controller
         $this->kirService = $kirService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return $this->successResponse(Kir::latest()->get());
+        try {
+            $search = $request->query('search');
+            $data = $this->kirService->getAll($search);
+            return $this->successResponse($data, 'Data Tanah berhasil diambil', 200);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorResponse('Data tanah tidak ditemukan', 404);
+        } catch (Throwable $e) {
+            return $this->errorResponse('Terjadi kesalahan pada server', 500);
+        }
     }
 
     public function store(KirRequest $request)

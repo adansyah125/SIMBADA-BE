@@ -18,7 +18,7 @@ class GedungService
             });
         }
 
-        return $query->latest()->paginate(1);
+        return $query->latest()->paginate(10);
     }
 
     public function create(array $data)

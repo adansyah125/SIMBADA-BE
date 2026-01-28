@@ -8,9 +8,18 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KirService
 {
-    public function getAll()
+    public function getAll($search = null)
     {
-        return Kir::latest()->get();
+        $query = Kir::query();
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nama_barang', 'like', "%{$search}%")
+                    ->orWhere('kode_barang', 'like', "%{$search}%");
+            });
+        }
+
+        return $query->latest()->paginate(10);
     }
 
     public function store(array $data, $request = null): Kir
@@ -27,7 +36,7 @@ class KirService
 
         $kir = Kir::create($data);
         // Generate QR
-        $qrData = url('/kir/' . $kir->id);
+        $qrData = url('/label/' . $kir->id);
         $qrName = 'qr_' . time() . '_' . $kir->id . '.svg';
         $qrPath = 'qrcodes/' . $qrName;
 
