@@ -13,6 +13,10 @@ use App\Http\Controllers\LaporanController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('/kir/cetak', [LaporanController::class, 'cetak']);
+Route::get('/kib-tanah/export/pdf', [KibTanahController::class, 'pdf']);
+Route::get('/kib-tanah/export/excel', [KibTanahController::class, 'excel']);
+Route::get('/kib-gedung/export/pdf', [KibGedungController::class, 'pdf']);
+Route::get('/kib-gedung/export/excel', [KibGedungController::class, 'excel']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);

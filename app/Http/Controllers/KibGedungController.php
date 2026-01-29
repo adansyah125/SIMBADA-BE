@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\GedungExport;
 use Exception;
 use Throwable;
 use App\Models\KibGedung;
 use App\Traits\ApiResponer;
 use Illuminate\Http\Request;
 use App\Services\GedungService;
-use App\Http\Requests\GedungRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 use App\Imports\KibGedungImport;
+use App\Http\Requests\GedungRequest;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
@@ -79,5 +81,27 @@ class KibGedungController extends Controller
         return response()->json([
             'message' => 'Data KIB Tanah berhasil diimport'
         ]);
+    }
+
+    public function pdf()
+    {
+        $data = KibGedung::orderBy('nama_barang')->get();
+
+        $pdf = Pdf::loadView('exports.kib_gedung_pdf', compact('data'))
+            ->setPaper('a2', 'landscape');
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'kib_gedung.pdf',
+            ['Content-Type' => 'application/pdf']
+        );
+    }
+
+    public function excel()
+    {
+        return Excel::download(
+            new GedungExport,
+            'kib_gedung.xlsx'
+        );
     }
 }

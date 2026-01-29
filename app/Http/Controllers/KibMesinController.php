@@ -6,9 +6,11 @@ use Exception;
 use Throwable;
 use App\Models\KibMesin;
 use App\Traits\ApiResponer;
+use App\Exports\MesinExport;
 use Illuminate\Http\Request;
 use App\Services\MesinService;
 use App\Imports\KibMesinImport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\KibMesinRequest;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -87,5 +89,27 @@ class KibMesinController extends Controller
                 'message' => $e->getMessage()   // 🔥 tampilkan error asli
             ], 500);
         }
+    }
+
+    public function pdf()
+    {
+        $data = KibMesin::orderBy('nama_barang')->get();
+
+        $pdf = Pdf::loadView('exports.kib_mesin_pdf', compact('data'))
+            ->setPaper('a2', 'landscape');
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'kib_mesin.pdf',
+            ['Content-Type' => 'application/pdf']
+        );
+    }
+
+    public function excel()
+    {
+        return Excel::download(
+            new MesinExport,
+            'kib_mesin.xlsx'
+        );
     }
 }

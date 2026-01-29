@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TanahExport;
 use Exception;
 use Throwable;
 use App\Models\KibTanah;
@@ -11,6 +12,7 @@ use App\Services\TanahService;
 use App\Imports\KibTanahImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Requests\KibTanahRequest;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class KibTanahController extends Controller
@@ -78,5 +80,27 @@ class KibTanahController extends Controller
         return response()->json([
             'message' => 'Data KIB Tanah berhasil diimport'
         ]);
+    }
+
+    public function pdf()
+    {
+        $data = KibTanah::orderBy('nama_barang')->get();
+
+        $pdf = Pdf::loadView('exports.kib_tanah_pdf', compact('data'))
+            ->setPaper('a2', 'landscape');
+
+        return response()->streamDownload(
+            fn() => print($pdf->output()),
+            'kib_tanah.pdf',
+            ['Content-Type' => 'application/pdf']
+        );
+    }
+
+    public function excel()
+    {
+        return Excel::download(
+            new TanahExport,
+            'kib_tanah.xlsx'
+        );
     }
 }
