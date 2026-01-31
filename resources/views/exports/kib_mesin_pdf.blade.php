@@ -123,70 +123,71 @@
 
     <!-- JUDUL LAPORAN -->
     <div class="judul">
-        DATA KARTU INVENTARIS BARANG ASET TETAP TANAH
+        DATA KARTU INVENTARIS BARANG ASET TETAP MESIN
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th rowspan="2">No</th>
-                <th colspan="2">Penggolongan dan Kodefikasi Barang</th>
-
-                <th rowspan="2">NIBAR</th>
-                <th rowspan="2">No Register</th>
-                <th rowspan="2">Spesifikasi Nama Barang</th>
-                <th rowspan="2">Spesifikasi Lainnya</th>
-                <th rowspan="2">Jumlah</th>
-                <th rowspan="2">Satuan</th>
-                <th rowspan="2">Lokasi</th>
-                <th rowspan="2">Titik Koordinat</th>
-
-                <th colspan="4">Bukti Kepemilikan</th>
-
-                <th rowspan="2">Harga Satuan</th>
-                <th rowspan="2">Nilai Perolehan</th>
-                <th rowspan="2">Tanggal Perolehan</th>
-                <th rowspan="2">Cara Perolehan</th>
-                <th rowspan="2">Status Penggunaan</th>
-                <th rowspan="2">Keterangan</th>
-            </tr>
-            <tr>
-                <th>Kode</th>
-                <th>Nama</th>
-
-                <th>Nama</th>
-                <th>Nomor</th>
-                <th>Tanggal</th>
-                <th>Nama Kepemilikan</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($data as $row)
+    @foreach ($data->chunk(50) as $chunk)
+        <table>
+            <thead>
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ $row->kode_barang }}</td>
-                    <td>{{ $row->nama_barang }}</td>
-                    <td>{{ $row->nibar }}</td>
-                    <td>{{ $row->no_register }}</td>
-                    <td>{{ $row->spesifikasi_nama_barang }}</td>
-                    <td>{{ $row->spesifikasi_lainnya }}</td>
-                    <td>{{ $row->jumlah }}</td>
-                    <td>{{ $row->satuan }}</td>
-                    <td>{{ $row->lokasi }}</td>
-                    <td>{{ $row->titik_koordinat }}</td>
-                    <td>{{ $row->nama }}</td>
-                    <td>{{ $row->nomor }}</td>
-                    <td>{{ $row->tanggal }}</td>
-                    <td>{{ $row->nama_kepemilikan }}</td>
-                    <td>{{ number_format($row->harga_satuan ?? 0, 0, ',', '.') }}</td>
-                    <td>{{ number_format($row->nilai_perolehan ?? 0, 0, ',', '.') }}</td>
-                    <td>{{ $row->tanggal_perolehan }}</td>
-                    <td>{{ $row->cara_perolehan }}</td>
-                    <td>{{ $row->status_penggunaan }}</td>
-                    <td>{{ $row->keterangan }}</td>
+                    <th rowspan="2">No</th>
+                    <th colspan="2">Penggolongan dan Kodefikasi Barang</th>
+
+                    <th rowspan="2">NIBAR</th>
+                    <th rowspan="2">No Register</th>
+                    <th rowspan="2">Spesifikasi Nama Barang</th>
+                    <th rowspan="2">Spesifikasi Lainnya</th>
+                    <th rowspan="2">merk</th>
+                    <th rowspan="2">Lokasi</th>
+
+                    <th colspan="3">Kendaraan Dinas</th>
+
+                    <th rowspan="2">jumlah</th>
+                    <th rowspan="2">satuan</th>
+                    <th rowspan="2">Harga Satuan</th>
+                    <th rowspan="2">Nilai Perolehan</th>
+                    <th rowspan="2">Tanggal Perolehan</th>
+                    <th rowspan="2">Cara Perolehan</th>
+                    <th rowspan="2">Status Penggunaan</th>
+                    <th rowspan="2">Keterangan</th>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
+                <tr>
+                    <th>Kode</th>
+                    <th>Nama</th>
+
+                    <th>No Polisi</th>
+                    <th>No Rangka</th>
+                    <th>No BPKB</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($chunk as $row)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td>{{ $row->kode_barang }}</td>
+                        <td>{{ $row->nama_barang }}</td>
+                        <td>{{ $row->nibar }}</td>
+                        <td>{{ $row->no_register }}</td>
+                        <td>{{ $row->spesifikasi_nama_barang }}</td>
+                        <td>{{ $row->spesifikasi_lainnya }}</td>
+                        <td>{{ $row->merk }}</td>
+                        <td>{{ $row->lokasi }}</td>
+                        <td>{{ $row->no_polisi }}</td>
+                        <td>{{ $row->no_rangka }}</td>
+                        <td>{{ $row->no_bpkb }}</td>
+                        <td>{{ $row->jumlah }}</td>
+                        <td>{{ $row->satuan }}</td>
+                        <td>{{ number_format($row->harga_satuan ?? 0, 0, ',', '.') }}</td>
+                        <td>{{ number_format($row->nilai_perolehan ?? 0, 0, ',', '.') }}</td>
+                        <td>{{ $row->tanggal_perolehan }}</td>
+                        <td>{{ $row->cara_perolehan }}</td>
+                        <td>{{ $row->status_penggunaan }}</td>
+                        <td>{{ $row->keterangan }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+        <div style="page-break-after: always;"></div>
+    @endforeach
     <script>
         window.onload = () => window.print();
     </script>

@@ -100,8 +100,7 @@ class KibMesinController extends Controller
 
         return response()->streamDownload(
             fn() => print($pdf->output()),
-            'kib_mesin.pdf',
-            ['Content-Type' => 'application/pdf']
+            'kib_mesin.pdf'
         );
     }
 
@@ -111,5 +110,12 @@ class KibMesinController extends Controller
             new MesinExport,
             'kib_mesin.xlsx'
         );
+    }
+
+    public function getAllMesin()
+    {
+        return response()->json([
+            'data' => KibMesin::latest()->get()
+        ]);
     }
 }

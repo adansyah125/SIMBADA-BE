@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KirController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KibMesinController;
 use App\Http\Controllers\KibTanahController;
@@ -17,12 +18,17 @@ Route::get('/kib-tanah/export/pdf', [KibTanahController::class, 'pdf']);
 Route::get('/kib-tanah/export/excel', [KibTanahController::class, 'excel']);
 Route::get('/kib-gedung/export/pdf', [KibGedungController::class, 'pdf']);
 Route::get('/kib-gedung/export/excel', [KibGedungController::class, 'excel']);
+Route::get('/kib-mesin/export/pdf', [KibMesinController::class, 'pdf']);
+Route::get('/kib-mesin/export/excel', [KibMesinController::class, 'excel']);
+Route::get('/kir/lokasi', [KirController::class, 'lokasi']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/profile', [AuthController::class, 'profile']);
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::apiResource('kib-tanah', KibTanahController::class);
     Route::apiResource('kib-mesin', KibMesinController::class);
+    Route::get('/kib-mesin-all', [KibMesinController::class, 'getAllMesin']);
+
     Route::apiResource('kib-gedung', KibGedungController::class);
     Route::apiResource('kir', KirController::class);
     Route::post('/kir/cetak-label', [KirController::class, 'cetakLabel']);
@@ -32,4 +38,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/kib-mesin/import', [KibMesinController::class, 'importExcel']);
 
     Route::get('/laporan/rekap-aset', [LaporanController::class, 'rekapAset']);
+
+    Route::get('berita', [BeritaController::class, 'index']);
 });

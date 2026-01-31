@@ -17,12 +17,12 @@ class KirSeeder extends Seeder
     public function run(): void
     {
         $kir = Kir::create([
-            'tanah_id' => 1,
-            'gedung_id' => 1,
-            'mesin_id' => 1,
+            'tanah_id' => null,
+            'gedung_id' => null,
+            'mesin_id' => null,
             'nama_barang' => 'Tanah A',
             'kode_barang' => '123',
-            'tahun' => now(),
+            'tanggal_perolehan' => now(),
             'lokasi' => 'Bandung',
             'kondisi' => 'baik',
             'jumlah' => 5,

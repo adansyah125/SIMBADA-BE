@@ -73,4 +73,27 @@ class KirController extends Controller
         return $pdf->download('label-kir.pdf');
         // atau ->stream() kalau mau preview
     }
+
+    public function lokasi()
+    {
+        $data = Kir::select(
+            'id',
+            'kode_barang',
+            'nama_barang',
+            'kondisi',
+            'lokasi'
+        )
+            ->orderBy('lokasi')
+            ->get()
+            ->groupBy('lokasi')
+            ->map(function ($items, $lokasi) {
+                return [
+                    'lokasi' => $lokasi,
+                    'items'  => $items->values(),
+                ];
+            })
+            ->values();
+
+        return response()->json($data);
+    }
 }

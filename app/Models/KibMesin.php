@@ -37,4 +37,9 @@ class KibMesin extends Model
     {
         return $this->hasMany(Kir::class);
     }
+
+    public function berita()
+    {
+        return $this->hasMany(Berita::class);
+    }
 }

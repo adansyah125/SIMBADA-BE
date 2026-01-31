@@ -7,6 +7,7 @@ use Database\Seeders\KirSeeder;
 use Illuminate\Database\Seeder;
 use Database\Seeders\MesinSeeder;
 use Database\Seeders\TanahSeeder;
+use Database\Seeders\BeritaSeeder;
 use Database\Seeders\GedungSeeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
         $this->call(MesinSeeder::class);
         $this->call(GedungSeeder::class);
         $this->call(KirSeeder::class);
+        $this->call(BeritaSeeder::class);
 
         User::create([
             'name' => 'admin',
