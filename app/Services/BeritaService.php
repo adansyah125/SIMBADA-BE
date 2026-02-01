@@ -8,6 +8,17 @@ class BeritaService
 {
     public function getAll()
     {
-        return Berita::all();
+        return Berita::with('mesin')->get();
+    }
+
+    public function create(array $data)
+    {
+        return Berita::create($data);
+    }
+
+    public function delete($id)
+    {
+        $berita = Berita::findOrFail($id);
+        return $berita->delete();
     }
 }

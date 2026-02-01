@@ -39,6 +39,18 @@ class KibMesinController extends Controller
         }
     }
 
+    public function NoPaginate()
+    {
+        try {
+            $data = $this->MesinService->getNoPaginate();
+            return $this->successResponse($data, 'Data Tanah berhasil diambil', 200);
+        } catch (ModelNotFoundException $e) {
+            return $this->errorResponse('Data tanah tidak ditemukan', 404);
+        } catch (Throwable $e) {
+            return $this->errorResponse('Terjadi kesalahan pada server', 500);
+        }
+    }
+
     public function store(KibMesinRequest $request)
     {
         $data = $this->MesinService->create($request->validated());

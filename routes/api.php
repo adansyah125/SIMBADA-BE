@@ -39,5 +39,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/laporan/rekap-aset', [LaporanController::class, 'rekapAset']);
 
-    Route::get('berita', [BeritaController::class, 'index']);
+    Route::get('/kib-mesin/get', [KibMesinController::class, 'NoPaginate']);
+    Route::apiResource('berita', BeritaController::class);
 });

@@ -22,6 +22,11 @@ class MesinService
         return $query->latest()->paginate(10);
     }
 
+    public function getNoPaginate()
+    {
+        return KibMesin::all();
+    }
+
     public function create(array $data)
     {
         return KibMesin::create($data);
