@@ -2,24 +2,21 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Sanctum\HasApiTokens;
 
-class Berita extends Model
+class Integritas extends Model
 {
     use HasFactory, HasApiTokens;
 
     protected $fillable = [
         'mesin_id',
-        'nama_pihak1',
-        'nip_pihak1',
-        'jabatan_pihak1',
-        'nama_pihak2',
-        'nip_pihak2',
-        'jabatan_pihak2',
-        'tanggal',
+        'nama',
+        'nip',
+        'jabatan',
         'jumlah',
+        'tanggal'
     ];
 
     public function mesin()

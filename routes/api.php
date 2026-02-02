@@ -6,6 +6,7 @@ use App\Http\Controllers\KirController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\IntegritasController;
 use App\Http\Controllers\KibMesinController;
 use App\Http\Controllers\KibTanahController;
 use App\Http\Controllers\KibGedungController;
@@ -39,6 +40,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/laporan/rekap-aset', [LaporanController::class, 'rekapAset']);
 
-    Route::get('/kib-mesin/get', [KibMesinController::class, 'NoPaginate']);
     Route::apiResource('berita', BeritaController::class);
+    Route::apiResource('integritas', IntegritasController::class);
+    Route::get('/integritas/{id}/pdf', [IntegritasController::class, 'pdf']);
+    Route::get('/berita/{id}/pdf', [BeritaController::class, 'pdf']);
 });

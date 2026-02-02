@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Models\Kir;
+use App\Models\Berita;
+use App\Models\Integritas;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -41,5 +43,10 @@ class KibMesin extends Model
     public function berita()
     {
         return $this->hasMany(Berita::class);
+    }
+
+    public function integritas()
+    {
+        return $this->hasMany(Integritas::class);
     }
 }

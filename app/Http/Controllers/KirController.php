@@ -81,7 +81,8 @@ class KirController extends Controller
             'kode_barang',
             'nama_barang',
             'kondisi',
-            'lokasi'
+            'lokasi',
+            'gambar_qr'
         )
             ->orderBy('lokasi')
             ->get()

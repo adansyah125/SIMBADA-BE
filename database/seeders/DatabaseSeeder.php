@@ -25,11 +25,10 @@ class DatabaseSeeder extends Seeder
         $this->call(MesinSeeder::class);
         $this->call(GedungSeeder::class);
         $this->call(KirSeeder::class);
-        $this->call(BeritaSeeder::class);
 
         User::create([
             'name' => 'admin',
-            'email' => 'adansyah225@gmail.com',
+            'email' => 'simbada@gmail.com',
             'password' => Hash::make('password123'),
         ]);
     }
